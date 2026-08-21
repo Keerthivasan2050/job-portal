@@ -1,0 +1,11 @@
+bin/
+target/
+mingit/
+*.zip
+*.class
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+*.log
