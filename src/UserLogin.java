@@ -6,59 +6,43 @@ import java.util.Scanner;
 
 public class UserLogin {
 
+    @SuppressWarnings("resource")
     public static void loginUser() {
+        Scanner scanner = new Scanner(System.in);
 
-        try (Scanner scanner = new Scanner(System.in)) {
+        System.out.println("\n========================================");
+        System.out.println("             USER LOGIN");
+        System.out.println("========================================");
 
-            System.out.println();
-            System.out.println("========================================");
-            System.out.println("             USER LOGIN");
-            System.out.println("========================================");
+        System.out.print("Enter Email: ");
+        String email = scanner.nextLine();
 
-            System.out.print("Enter Email: ");
-            String email = scanner.nextLine();
+        System.out.print("Enter Password: ");
+        String password = scanner.nextLine();
 
-            System.out.print("Enter Password: ");
-            String password = scanner.nextLine();
+        String sql = "SELECT user_id, full_name, user_type FROM users WHERE email = ? AND password = ?";
 
-            String sql = """
-                    SELECT user_id, full_name, user_type
-                    FROM users
-                    WHERE email = ? AND password = ?
-                    """;
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            try (Connection connection = DatabaseConnection.getConnection();
-                 PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            statement.setString(2, password);
 
-                statement.setString(1, email);
-                statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
 
-                ResultSet resultSet = statement.executeQuery();
-
-                if (resultSet.next()) {
-
-                    System.out.println();
-                    System.out.println("========================================");
-                    System.out.println("          LOGIN SUCCESSFUL");
-                    System.out.println("========================================");
-                    System.out.println("Welcome, " + resultSet.getString("full_name") + "!");
-                    System.out.println("User ID   : " + resultSet.getInt("user_id"));
-                    System.out.println("User Type : " + resultSet.getString("user_type"));
-                    System.out.println("========================================");
-
-                } else {
-
-                    System.out.println();
-                    System.out.println("Login failed!");
-                    System.out.println("Invalid email or password.");
-                }
-
-            } catch (SQLException e) {
-
-                System.out.println();
-                System.out.println("Login failed!");
-                System.out.println("Database error: " + e.getMessage());
+            if (resultSet.next()) {
+                System.out.println("\n========================================");
+                System.out.println("          LOGIN SUCCESSFUL");
+                System.out.println("========================================");
+                System.out.println("Welcome, " + resultSet.getString("full_name") + "!");
+                System.out.println("User ID   : " + resultSet.getInt("user_id"));
+                System.out.println("User Type : " + resultSet.getString("user_type"));
+                System.out.println("========================================");
+            } else {
+                System.out.println("\nLogin failed! Invalid email or password.");
             }
+        } catch (SQLException e) {
+            System.out.println("\nLogin failed! Database error: " + e.getMessage());
         }
     }
 

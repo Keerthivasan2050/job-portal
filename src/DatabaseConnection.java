@@ -27,7 +27,7 @@ public class DatabaseConnection {
 
         try (Connection connection = getConnection()) {
 
-            System.out.println("MySQL connection successful!");
+            System.out.println("MySQL connection successful: " + (connection != null ? connection.getCatalog() : "active"));
             System.out.println("Database: jobportal");
             System.out.println("Server: localhost");
             System.out.println("Port: 3306");

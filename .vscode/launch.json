@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "UserLogin",
+            "request": "launch",
+            "mainClass": "UserLogin",
+            "projectName": "job-portal-system"
+        },
+        {
+            "type": "java",
+            "name": "Launch WebServer",
+            "request": "launch",
+            "mainClass": "WebServer",
+            "projectName": "job-portal-system"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main (CLI Menu)",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "job-portal-system"
+        }
+    ]
+}
